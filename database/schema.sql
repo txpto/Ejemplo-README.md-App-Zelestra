@@ -1,0 +1,30 @@
+CREATE TABLE meters (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  location VARCHAR(255),
+  protocol VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE parameters (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  unit VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE historical_readings (
+  id BIGSERIAL PRIMARY KEY,
+  meter_id INTEGER NOT NULL REFERENCES meters(id),
+  parameter_id INTEGER NOT NULL REFERENCES parameters(id),
+  timestamp TIMESTAMP NOT NULL,
+  value NUMERIC(18,6) NOT NULL,
+  quality VARCHAR(20) DEFAULT 'GOOD'
+);
+
+CREATE TABLE alarms (
+  id BIGSERIAL PRIMARY KEY,
+  meter_id INTEGER REFERENCES meters(id),
+  level VARCHAR(20) NOT NULL,
+  message TEXT NOT NULL,
+  timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
