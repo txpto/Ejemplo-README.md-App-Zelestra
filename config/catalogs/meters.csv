@@ -1,0 +1,5 @@
+link_address,measurement_point,ip_address,tcp_port,meter_name,physical_location,psfv_project,enabled
+101,CT-01,10.20.1.11,2404,CONTADOR_CT_01,Centro de Transformación 01,PSFV_LLERENA,true
+102,CT-02,10.20.1.12,2404,CONTADOR_CT_02,Centro de Transformación 02,PSFV_LLERENA,true
+201,CT-15,10.30.4.21,2404,CONTADOR_CT_15,Centro de Transformación 15,PSFV_LEBRIJA,true
+301,CT-03,10.40.2.13,2404,CONTADOR_CT_03,Centro de Transformación 03,PSFV_ISLA_MAYOR,false

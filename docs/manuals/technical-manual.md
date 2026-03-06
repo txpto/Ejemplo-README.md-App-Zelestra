@@ -1,3 +1,3 @@
 # Manual técnico
 
-Arquitectura, despliegue y mantenimiento.
+Arquitectura, despliegue, configuración y mantenimiento.

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="320" viewBox="0 0 1400 320">
+<defs>
+  <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+    <stop offset="0%" stop-color="#0f172a"/>
+    <stop offset="100%" stop-color="#1d4ed8"/>
+  </linearGradient>
+</defs>
+<rect width="1400" height="320" fill="url(#g)"/>
+<rect x="60" y="50" width="1280" height="220" rx="24" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)"/>
+<text x="100" y="130" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="white">Plataforma de Monitorización Energética</text>
+<text x="100" y="175" font-family="Arial, sans-serif" font-size="22" fill="#dbeafe">IEC60870-5-102 · Modbus TCP · Historian · Alarmas · SCADA</text>
+<text x="100" y="225" font-family="Arial, sans-serif" font-size="18" fill="#bfdbfe">Repositorio técnico premium de ejemplo · Zelestra</text>
+<rect x="980" y="90" width="280" height="120" rx="16" fill="white" opacity="0.92"/>
+<text x="1010" y="135" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#0f172a">Escalable sin recodificar</text>
+<text x="1010" y="165" font-family="Arial, sans-serif" font-size="15" fill="#334155">• Inventario CSV</text>
+<text x="1010" y="190" font-family="Arial, sans-serif" font-size="15" fill="#334155">• Historización CSV</text>
+<text x="1010" y="215" font-family="Arial, sans-serif" font-size="15" fill="#334155">• Parámetros YAML</text>
+</svg>

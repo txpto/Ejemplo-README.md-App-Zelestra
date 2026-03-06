@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860">
+<rect width="1400" height="860" fill="#f8fafc"/>
+<rect x="30" y="30" width="1340" height="800" rx="20" fill="white" stroke="#cbd5e1"/>
+<rect x="30" y="30" width="1340" height="70" rx="20" fill="#1e293b"/>
+<text x="70" y="75" font-family="Arial" font-size="28" font-weight="700" fill="white">Pantalla de Detalle de Contador · CT-17</text>
+<rect x="70" y="130" width="390" height="150" rx="16" fill="#eff6ff" stroke="#93c5fd"/>
+<rect x="500" y="130" width="390" height="150" rx="16" fill="#ecfdf5" stroke="#86efac"/>
+<rect x="930" y="130" width="350" height="150" rx="16" fill="#fefce8" stroke="#fde68a"/>
+<text x="95" y="180" font-family="Arial" font-size="20" font-weight="700" fill="#1e3a8a">Potencia activa total</text>
+<text x="95" y="230" font-family="Arial" font-size="34" font-weight="700" fill="#0f172a">1.248 kW</text>
+<text x="525" y="180" font-family="Arial" font-size="20" font-weight="700" fill="#166534">Factor de potencia</text>
+<text x="525" y="230" font-family="Arial" font-size="34" font-weight="700" fill="#0f172a">0.98</text>
+<text x="955" y="180" font-family="Arial" font-size="20" font-weight="700" fill="#a16207">Estado</text>
+<text x="955" y="230" font-family="Arial" font-size="30" font-weight="700" fill="#0f172a">Recuperando datos</text>
+<rect x="70" y="320" width="1210" height="220" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="95" y="360" font-family="Arial" font-size="22" font-weight="700" fill="#0f172a">Curva histórica 24 h</text>
+<polyline fill="none" stroke="#0ea5e9" stroke-width="4" points="110,500 180,470 250,480 320,430 390,420 460,395 530,410 600,370 670,360 740,345 810,350 880,320 950,310 1020,330 1090,300 1160,290 1230,275"/>
+<line x1="110" y1="520" x2="1240" y2="520" stroke="#94a3b8"/>
+<line x1="110" y1="390" x2="110" y2="520" stroke="#94a3b8"/>
+<rect x="70" y="580" width="580" height="170" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="95" y="620" font-family="Arial" font-size="22" font-weight="700" fill="#0f172a">Progreso de recuperación</text>
+<rect x="95" y="660" width="500" height="24" rx="12" fill="#e5e7eb"/>
+<rect x="95" y="660" width="340" height="24" rx="12" fill="#eab308"/>
+<text x="95" y="715" font-family="Arial" font-size="16" fill="#334155">68 % de huecos históricos recuperados</text>
+<rect x="700" y="580" width="580" height="170" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="725" y="620" font-family="Arial" font-size="22" font-weight="700" fill="#0f172a">Variables instantáneas</text>
+<text x="725" y="665" font-family="Arial" font-size="16" fill="#334155">V1: 229 V · I1: 186 A</text>
+<text x="725" y="695" font-family="Arial" font-size="16" fill="#334155">V2: 231 V · I2: 191 A</text>
+<text x="725" y="725" font-family="Arial" font-size="16" fill="#334155">V3: 230 V · I3: 188 A</text>
+</svg>

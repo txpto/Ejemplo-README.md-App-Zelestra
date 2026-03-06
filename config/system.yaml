@@ -5,15 +5,16 @@ database:
   user: scada
   password: change_me
 
-iec102:
-  enabled: true
-  polling_interval: 5
-  reconnect_interval: 30
-
-modbus_tcp:
-  enabled: true
-  timeout_seconds: 3
+acquisition:
+  polling_seconds_default: 5
+  reconnect_seconds: 30
+  quality_on_timeout: BAD
 
 historian:
-  retention_days: 3650
+  default_retention_days: 3650
   batch_insert_size: 500
+
+projects:
+  meters_file: config/catalogs/meters.csv
+  meter_historization_file: config/catalogs/meter_historization.csv
+  meteo_stations_file: config/catalogs/meteo_stations.csv

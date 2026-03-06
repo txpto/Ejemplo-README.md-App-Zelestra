@@ -1,0 +1,7 @@
+meter_name,signal_name,historize,sampling_seconds,deadband,enabled
+CONTADOR_CT_01,ACTIVE_IMPORTED_KWH,true,900,0,true
+CONTADOR_CT_01,ACTIVE_EXPORTED_KWH,true,900,0,true
+CONTADOR_CT_01,VOLTAGE_PHASE_1,true,60,0.5,true
+CONTADOR_CT_01,CURRENT_PHASE_1,true,60,0.2,true
+CONTADOR_CT_01,POWER_ACTIVE_TOTAL,true,10,1.0,true
+CONTADOR_CT_02,POWER_FACTOR_TOTAL,true,10,0.01,true

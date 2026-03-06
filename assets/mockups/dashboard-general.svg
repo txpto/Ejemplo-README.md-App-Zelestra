@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860">
+<rect width="1400" height="860" fill="#f8fafc"/>
+<rect x="30" y="30" width="1340" height="800" rx="20" fill="white" stroke="#cbd5e1"/>
+<rect x="30" y="30" width="1340" height="70" rx="20" fill="#0f172a"/>
+<text x="70" y="75" font-family="Arial" font-size="28" font-weight="700" fill="white">Dashboard General de Planta</text>
+<rect x="70" y="140" width="280" height="110" rx="16" fill="#eff6ff" stroke="#93c5fd"/>
+<rect x="380" y="140" width="280" height="110" rx="16" fill="#ecfdf5" stroke="#86efac"/>
+<rect x="690" y="140" width="280" height="110" rx="16" fill="#fefce8" stroke="#fde68a"/>
+<rect x="1000" y="140" width="280" height="110" rx="16" fill="#fef2f2" stroke="#fca5a5"/>
+<text x="95" y="185" font-family="Arial" font-size="20" font-weight="700" fill="#1e3a8a">80 Contadores</text>
+<text x="95" y="215" font-family="Arial" font-size="16" fill="#334155">Activos y monitorizados</text>
+<text x="405" y="185" font-family="Arial" font-size="20" font-weight="700" fill="#166534">99.5% Uptime</text>
+<text x="405" y="215" font-family="Arial" font-size="16" fill="#334155">Disponibilidad objetivo</text>
+<text x="715" y="185" font-family="Arial" font-size="20" font-weight="700" fill="#a16207">3 Alarmas</text>
+<text x="715" y="215" font-family="Arial" font-size="16" fill="#334155">Eventos a revisar</text>
+<text x="1025" y="185" font-family="Arial" font-size="20" font-weight="700" fill="#991b1b">1 Incidencia</text>
+<text x="1025" y="215" font-family="Arial" font-size="16" fill="#334155">Comunicación degradada</text>
+<rect x="70" y="290" width="820" height="460" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="95" y="330" font-family="Arial" font-size="22" font-weight="700" fill="#0f172a">Tendencia de Potencia Activa</text>
+<polyline fill="none" stroke="#2563eb" stroke-width="4" points="110,640 180,600 250,610 320,540 390,500 460,520 530,460 600,430 670,450 740,390 810,360"/>
+<line x1="110" y1="700" x2="840" y2="700" stroke="#94a3b8"/>
+<line x1="110" y1="380" x2="110" y2="700" stroke="#94a3b8"/>
+<rect x="930" y="290" width="350" height="220" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="955" y="330" font-family="Arial" font-size="22" font-weight="700" fill="#0f172a">Estado comunicaciones</text>
+<circle cx="980" cy="380" r="10" fill="#22c55e"/><text x="1005" y="386" font-family="Arial" font-size="16" fill="#334155">78 Online</text>
+<circle cx="980" cy="420" r="10" fill="#eab308"/><text x="1005" y="426" font-family="Arial" font-size="16" fill="#334155">1 Recuperando datos</text>
+<circle cx="980" cy="460" r="10" fill="#ef4444"/><text x="1005" y="466" font-family="Arial" font-size="16" fill="#334155">1 Offline</text>
+<rect x="930" y="530" width="350" height="220" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="955" y="570" font-family="Arial" font-size="22" font-weight="700" fill="#0f172a">Alarmas recientes</text>
+<text x="955" y="620" font-family="Arial" font-size="16" fill="#334155">• CT-17 sin comunicación</text>
+<text x="955" y="655" font-family="Arial" font-size="16" fill="#334155">• Meteo-01 timeout lectura</text>
+<text x="955" y="690" font-family="Arial" font-size="16" fill="#334155">• Recuperación backlog CT-04</text>
+</svg>

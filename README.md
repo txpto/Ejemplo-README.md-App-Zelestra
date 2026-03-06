@@ -1,6 +1,10 @@
 # ⚡ Plataforma de Monitorización Energética para Plantas Fotovoltaicas
 ### Sistema de adquisición IEC60870-5-102, historización y visualización SCADA
 
+<p align="center">
+  <img src="./assets/banner/header.svg" alt="Banner del proyecto" width="100%">
+</p>
+
 <p align="left">
   <img src="https://img.shields.io/badge/build-passing-brightgreen" alt="build">
   <img src="https://img.shields.io/badge/version-1.0-blue" alt="version">
@@ -24,6 +28,7 @@ Solución software industrial diseñada para la **monitorización energética de
 - Visualización SCADA
 - Integración con centros de control
 - Arquitectura modular y mantenible
+- Capacidad de crecimiento sin reprogramación
 - Propiedad intelectual del cliente
 
 ---
@@ -31,6 +36,7 @@ Solución software industrial diseñada para la **monitorización energética de
 ## 📚 Índice
 
 - [✨ Resumen ejecutivo](#-resumen-ejecutivo)
+- [🖼️ Vistas de producto](#️-vistas-de-producto)
 - [🧭 Visión general](#-visión-general)
 - [🚀 Características principales](#-características-principales)
 - [🏗️ Arquitectura general del sistema](#️-arquitectura-general-del-sistema)
@@ -38,14 +44,30 @@ Solución software industrial diseñada para la **monitorización energética de
 - [☁️ Arquitectura estilo Cloud / AWS](#️-arquitectura-estilo-cloud--aws)
 - [🗄️ Modelo de datos y UML](#️-modelo-de-datos-y-uml)
 - [🌊 Flujo de datos](#-flujo-de-datos)
+- [🔧 Configuración](#-configuración)
 - [🗂️ Estructura del repositorio GitHub](#️-estructura-del-repositorio-github)
 - [⚙️ Prerrequisitos](#️-prerrequisitos)
 - [🛠️ Instalación](#️-instalación)
-- [🔧 Configuración](#-configuración)
 - [📈 Observabilidad](#-observabilidad)
 - [🔄 DevOps / CI](#-devops--ci)
 - [📋 SLA recomendado](#-sla-recomendado)
 - [🔐 Propiedad intelectual](#-propiedad-intelectual)
+
+---
+
+## 🖼️ Vistas de producto
+
+### Dashboard general de planta
+
+<p align="center">
+  <img src="./assets/mockups/dashboard-general.svg" alt="Mockup dashboard general" width="100%">
+</p>
+
+### Pantalla de detalle por contador
+
+<p align="center">
+  <img src="./assets/mockups/dashboard-detalle-contador.svg" alt="Mockup detalle contador" width="100%">
+</p>
 
 ---
 
@@ -60,6 +82,7 @@ La plataforma se concibe como una solución de ingeniería software de propósit
 - **Observabilidad**
 - **Transferencia de conocimiento**
 - **Independencia tecnológica del cliente**
+- **Crecimiento mediante configuración, no mediante recodificación**
 
 > Esta documentación está pensada para que un tercero pueda comprender la arquitectura, desplegar el sistema y mantenerlo con garantías razonables.
 
@@ -74,6 +97,7 @@ La plataforma se concibe como una solución de ingeniería software de propósit
 | Integración | API, exportación de datos, integración con ROC/centros de control |
 | Explotación | SCADA, pantallas de detalle, vista general, alarmas |
 | Continuidad | Recuperación automática de huecos de datos |
+| Escalabilidad | Alta de nuevos equipos y proyectos sin tocar código |
 | Operación | Logs, métricas, observabilidad y soporte al mantenimiento |
 
 ---
@@ -86,22 +110,6 @@ Separación en bloques funcionales para simplificar despliegue, operación y evo
 Campo → Adquisición → Procesado → Base de Datos → API/Integración → SCADA/UI
 ```
 
-### Capas principales
-1. **Equipos de campo**  
-   Contadores IEC102 y estaciones meteorológicas.
-
-2. **Capa de adquisición**  
-   Motores de comunicación y normalización de datos.
-
-3. **Capa de lógica**  
-   Historian, alarmas, recuperación de huecos y servicios internos.
-
-4. **Persistencia**  
-   Base de datos relacional e histórico operativo.
-
-5. **Exposición e interfaz**  
-   API, integración externa, dashboards y pantallas SCADA.
-
 ---
 
 ## 🧩 Diagrama C4 visual
@@ -109,11 +117,6 @@ Campo → Adquisición → Procesado → Base de Datos → API/Integración → 
 <p align="center">
   <img src="./diagrams/c4_architecture.svg" alt="Diagrama C4 de arquitectura" width="980">
 </p>
-
-### Lectura del diagrama
-- **Operador SCADA** interactúa con la plataforma.
-- **Plataforma de monitorización** centraliza adquisición, lógica y presentación.
-- **Centro de control energético** y **sistemas corporativos** consumen información del sistema.
 
 ---
 
@@ -123,17 +126,6 @@ Campo → Adquisición → Procesado → Base de Datos → API/Integración → 
   <img src="./diagrams/system_architecture_cloud.svg" alt="Arquitectura estilo cloud" width="980">
 </p>
 
-### Qué representa
-- Punto de acceso seguro mediante **VPN / Internet corporativa**
-- Capa de entrada mediante **Load Balancer**
-- **Servidor web SCADA**
-- **Servicio API**
-- Motores especializados:
-  - **Acquisition Engine**
-  - **Historian Engine**
-- **Base de datos SQL**
-- **Backups / almacenamiento**
-
 ---
 
 ## 🗄️ Modelo de datos y UML
@@ -141,12 +133,6 @@ Campo → Adquisición → Procesado → Base de Datos → API/Integración → 
 <p align="center">
   <img src="./diagrams/uml_database_schema.svg" alt="UML base de datos" width="980">
 </p>
-
-### Entidades clave
-- **meters**: catálogo de contadores
-- **historical_readings**: histórico de lecturas por contador
-- **alarms**: eventos y estados de alarma
-- **parameters**: metadatos de variables y unidades
 
 ---
 
@@ -168,68 +154,36 @@ API / SCADA / Reporting / ROC
 
 ---
 
-## 🗂️ Estructura del repositorio GitHub
+## 🔧 Configuración
+
+La plataforma ha sido diseñada con un enfoque **data-driven**, de forma que la ampliación del sistema pueda realizarse **sin reprogramar ninguna línea de código**.
+
+Esto permite incorporar en el futuro:
+
+- nuevos contadores
+- nuevas estaciones meteorológicas
+- nuevas señales
+- nuevos proyectos PSFV
+- nuevos periodos de historización
+
+mediante la edición de ficheros externos de configuración en **CSV** y **YAML**.
+
+### Estructura de configuración
 
 ```text
-solar-monitoring-platform/
-├── README.md
-├── docs/
-├── diagrams/
-├── src/
-├── database/
-├── config/
-├── scripts/
-└── tests/
+config/
+├── system.yaml
+├── catalogs/
+│   ├── meters.csv
+│   ├── meter_historization.csv
+│   └── meteo_stations.csv
+└── templates/
+    ├── meters.template.csv
+    ├── meter_historization.template.csv
+    └── meteo_stations.template.csv
 ```
 
----
-
-## ⚙️ Prerrequisitos
-
-### Hardware recomendado
-- CPU: **4 cores** mínimo
-- RAM: **16 GB** recomendados
-- Disco: **SSD**
-- Red: conectividad estable hacia equipos de campo y sistemas de integración
-
-### Software base
-- Linux o Windows Server
-- PostgreSQL o MySQL
-- Runtime de la aplicación
-- Acceso a puertos y rutas de comunicación requeridos
-
----
-
-## 🛠️ Instalación
-
-### 1. Clonar repositorio
-
-```bash
-git clone https://github.com/txpto/Ejemplo-README.md-App-Zelestra.git
-cd Ejemplo-README.md-App-Zelestra
-```
-
-### 2. Instalar dependencias
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Revisar configuración
-
-```bash
-nano config/system.yaml
-```
-
-### 4. Lanzar servicios
-
-```bash
-./scripts/deploy.sh
-```
-
----
-
-## 🔧 Configuración
+### 1. Configuración general del sistema
 
 Archivo principal:
 
@@ -243,56 +197,188 @@ Ejemplo:
 database:
   host: localhost
   port: 5432
+  name: scada_monitoring
   user: scada
+  password: change_me
 
-iec102:
-  polling_interval: 5
+acquisition:
+  polling_seconds_default: 5
+  reconnect_seconds: 30
+  quality_on_timeout: BAD
 
 historian:
-  retention_days: 3650
+  default_retention_days: 3650
+  batch_insert_size: 500
+
+projects:
+  meters_file: config/catalogs/meters.csv
+  meter_historization_file: config/catalogs/meter_historization.csv
+  meteo_stations_file: config/catalogs/meteo_stations.csv
+```
+
+Este fichero controla:
+
+- conexión a base de datos
+- tiempos generales de adquisición
+- reintentos de comunicación
+- política general de historización
+- rutas a los CSV de inventario y parametrización
+
+### 2. Inventario de contadores
+
+Archivo:
+
+```text
+config/catalogs/meters.csv
+```
+
+Campos:
+
+- `link_address` → Dirección de enlace
+- `measurement_point` → Punto de medida
+- `ip_address` → Dirección IP
+- `tcp_port` → Puerto TCP
+- `meter_name` → Nombre del contador
+- `physical_location` → Ubicación física
+- `psfv_project` → Proyecto PSFV
+- `enabled` → Habilitado / deshabilitado
+
+Ejemplo:
+
+```csv
+link_address,measurement_point,ip_address,tcp_port,meter_name,physical_location,psfv_project,enabled
+101,CT-01,10.20.1.11,2404,CONTADOR_CT_01,Centro de Transformación 01,PSFV_LLERENA,true
+102,CT-02,10.20.1.12,2404,CONTADOR_CT_02,Centro de Transformación 02,PSFV_LLERENA,true
+201,CT-15,10.30.4.21,2404,CONTADOR_CT_15,Centro de Transformación 15,PSFV_LEBRIJA,true
+301,CT-03,10.40.2.13,2404,CONTADOR_CT_03,Centro de Transformación 03,PSFV_ISLA_MAYOR,false
+```
+
+### 3. Historización de variables por contador
+
+Archivo:
+
+```text
+config/catalogs/meter_historization.csv
+```
+
+Campos:
+
+- `meter_name`
+- `signal_name`
+- `historize`
+- `sampling_seconds`
+- `deadband`
+- `enabled`
+
+Ejemplo:
+
+```csv
+meter_name,signal_name,historize,sampling_seconds,deadband,enabled
+CONTADOR_CT_01,ACTIVE_IMPORTED_KWH,true,900,0,true
+CONTADOR_CT_01,ACTIVE_EXPORTED_KWH,true,900,0,true
+CONTADOR_CT_01,VOLTAGE_PHASE_1,true,60,0.5,true
+CONTADOR_CT_01,CURRENT_PHASE_1,true,60,0.2,true
+CONTADOR_CT_01,POWER_ACTIVE_TOTAL,true,10,1.0,true
+CONTADOR_CT_02,POWER_FACTOR_TOTAL,true,10,0.01,true
+```
+
+### 4. Inventario de estaciones meteorológicas
+
+Archivo:
+
+```text
+config/catalogs/meteo_stations.csv
+```
+
+Campos:
+
+- `ip_address`
+- `tcp_port`
+- `station_name`
+- `physical_location`
+- `psfv_project`
+- `enabled`
+
+Ejemplo:
+
+```csv
+ip_address,tcp_port,station_name,physical_location,psfv_project,enabled
+10.50.1.10,502,METEO_01,Zona Norte,PSFV_LLERENA,true
+10.50.1.11,502,METEO_02,Zona Sur,PSFV_LLERENA,true
+10.60.2.10,502,METEO_03,Subcampo Este,PSFV_LEBRIJA,true
+```
+
+### Beneficios de este enfoque
+
+- alta de nuevos equipos sin desarrollo
+- activación y desactivación por configuración
+- reutilización de la misma aplicación en múltiples plantas
+- reducción de dependencia del desarrollador original
+- mantenimiento más sencillo por terceros
+
+---
+
+## 🗂️ Estructura del repositorio GitHub
+
+```text
+Ejemplo-README.md-App-Zelestra-PREMIUM-CONFIG/
+├── README.md
+├── assets/
+│   ├── banner/
+│   └── mockups/
+├── diagrams/
+├── docs/
+├── src/
+├── database/
+├── config/
+│   ├── system.yaml
+│   ├── catalogs/
+│   └── templates/
+├── scripts/
+└── tests/
+```
+
+---
+
+## ⚙️ Prerrequisitos
+
+- CPU: **4 cores** mínimo
+- RAM: **16 GB** recomendados
+- Disco: **SSD**
+- Linux o Windows Server
+- PostgreSQL o MySQL
+
+---
+
+## 🛠️ Instalación
+
+```bash
+git clone https://github.com/txpto/Ejemplo-README.md-App-Zelestra.git
+cd Ejemplo-README.md-App-Zelestra
+pip install -r requirements.txt
 ```
 
 ---
 
 ## 📈 Observabilidad
 
-### Integraciones recomendadas
-- **Prometheus**
-- **Grafana**
+- Prometheus
+- Grafana
 - Logs centralizados
-- Alertado por eventos críticos
-
-### Métricas clave
-- Latencia de adquisición
-- Equipos offline
-- Errores de comunicación
-- Backlog de recuperación de datos
-- Crecimiento de base de datos
+- Alertas por eventos críticos
 
 ---
 
 ## 🔄 DevOps / CI
 
-Pipeline recomendado para un proyecto profesional:
-
 ```text
 GitHub → CI Pipeline → Tests → Build → Artefactos → Despliegue controlado
 ```
-
-### Herramientas compatibles
-- GitHub Actions
-- Docker
-- Linters y validación estática
-- Tests unitarios e integración
 
 ---
 
 ## 📋 SLA recomendado
 
-### Disponibilidad objetivo
-**99.5 % uptime**
-
-### Tiempos de respuesta orientativos
 - **Crítica**: < 4 horas
 - **Media**: < 24 horas
 - **Baja**: < 72 horas
@@ -301,25 +387,9 @@ GitHub → CI Pipeline → Tests → Build → Artefactos → Despliegue control
 
 ## 🔐 Propiedad intelectual
 
-Todo el software desarrollado es **propiedad del cliente**, incluyendo:
-
-- Código fuente
-- Arquitectura
-- Documentación
-- Diagramas
-- Scripts de despliegue y operación
-
-### Qué garantiza esto
-- Independencia tecnológica
-- Posibilidad de mantenimiento por terceros
-- Evolución futura sin bloqueo tecnológico
-- Seguridad para la continuidad operativa
+Todo el software desarrollado es **propiedad del cliente**, incluyendo código fuente, arquitectura, documentación, diagramas y scripts.
 
 ---
-
-## 🏁 Cierre
-
-Esta documentación de ejemplo está pensada para mostrar cómo sería un repositorio serio y bien estructurado de una solución software industrial a medida.
 
 **Ingeniería e Instalaciones Industriales del Maresme S.L.**  
 Departamento de Ingeniería de Automatización

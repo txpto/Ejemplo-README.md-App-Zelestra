@@ -1,0 +1,4 @@
+ip_address,tcp_port,station_name,physical_location,psfv_project,enabled
+10.50.1.10,502,METEO_01,Zona Norte,PSFV_LLERENA,true
+10.50.1.11,502,METEO_02,Zona Sur,PSFV_LLERENA,true
+10.60.2.10,502,METEO_03,Subcampo Este,PSFV_LEBRIJA,true
