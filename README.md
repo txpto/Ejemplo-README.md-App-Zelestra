@@ -12,124 +12,173 @@
 ---
 
 # Índice
-1. Introducción
-2. Características
-3. Arquitectura del sistema
-4. Arquitectura tipo ingeniería
-5. Arquitectura C4
-6. Flujo de datos
-7. Estructura del repositorio
-8. Prerrequisitos
-9. Instalación
-10. Configuración
-11. Arquitectura de base de datos
-12. Recuperación de datos
-13. Seguridad
-14. Observabilidad
-15. DevOps / CI
-16. Escalabilidad
-17. SLA
-18. Mantenimiento
-19. Propiedad intelectual
+
+1. Introducción  
+2. Características  
+3. Arquitectura general del sistema  
+4. Diagrama C4 de arquitectura  
+5. Arquitectura estilo Cloud / AWS  
+6. Flujo de datos del sistema  
+7. Diagrama UML de la base de datos  
+8. Estructura del repositorio GitHub  
+9. Prerrequisitos  
+10. Instalación  
+11. Configuración  
+12. Observabilidad  
+13. DevOps / CI  
+14. SLA recomendado  
+15. Propiedad intelectual  
 
 ---
 
-# Introducción
+# 1. Introducción
 
-Plataforma diseñada para monitorización energética de plantas solares mediante contadores IEC60870‑5‑102 y estaciones meteorológicas Modbus TCP.
+Plataforma de monitorización energética diseñada para plantas solares que permite la adquisición de datos desde contadores IEC60870-5-102 y estaciones meteorológicas Modbus TCP.
 
 Permite:
 
 - monitorización en tiempo real
 - historización energética
-- visualización SCADA
 - recuperación automática de datos
+- visualización SCADA
 - integración con centros de control
 
+La solución se diseña como **software industrial robusto y completamente documentado**, preparado para mantenimiento futuro.
+
 ---
 
-# Características
+# 2. Características
 
-✔ monitorización energética  
-✔ historian de datos  
-✔ alarmas  
+✔ adquisición de datos IEC60870-5-102  
+✔ integración Modbus TCP  
+✔ historian energético  
 ✔ recuperación automática de datos  
-✔ API de integración  
-✔ arquitectura modular  
+✔ gestión de alarmas  
+✔ API de integración externa  
+✔ arquitectura escalable  
 
 ---
 
-# Arquitectura del sistema
+# 3. Arquitectura general
 
 ```
-SCADA UI
-   │
-   ▼
-API / Integración
-   │
-   ▼
-Procesado y Alarmas
-   │
-   ▼
-Base de datos Historian
-   │
-   ▼
-Motor de adquisición
-   │
-   ▼
-Contadores IEC102 / Meteo
-```
-
----
-
-# Arquitectura tipo ingeniería
-
-```
-Frontend SCADA
-       │
-       ▼
-API Gateway
-       │
-       ▼
-┌─────────────┬──────────────┬──────────────┐
-│ Acquisition │ Historian    │ Alarm Engine │
-└──────┬──────┴──────┬───────┴──────┬───────┘
-       │             │              │
-       └─────────────┴──────────────┘
-                     │
-                     ▼
-                SQL Database
+        +-----------------------+
+        |        SCADA UI       |
+        +-----------+-----------+
+                    |
+                    v
+        +-----------------------+
+        |      API Gateway      |
+        +-----------+-----------+
+                    |
+                    v
++---------+---------+----------+---------+
+| Acquisition | Historian | Alarm Engine |
++---------+---------+----------+---------+
+                    |
+                    v
+           +----------------+
+           | SQL Database   |
+           +----------------+
+                    |
+                    v
+           Contadores / Meteo
 ```
 
 ---
 
-# Arquitectura C4
+# 4. Diagrama C4 de arquitectura
 
-Contexto
-
-```
-Operador SCADA
-      │
-      ▼
-Plataforma Monitorización
-      │
-      ├── Centro Control Energía
-      └── Sistemas Corporativos
-```
-
-Contenedores
+## Nivel Contexto
 
 ```
-SCADA Frontend
-API Service
-Acquisition Engine
-Historian Service
-SQL Database
+             +---------------------+
+             |  Operador SCADA     |
+             +----------+----------+
+                        |
+                        v
+            +-----------------------+
+            | Plataforma Monitorización |
+            +-----------+-----------+
+                        |
+          +-------------+-------------+
+          |                           |
+          v                           v
+  Centro Control Energía      Sistemas Corporativos
+```
+
+## Nivel Contenedores
+
+```
++---------------------------+
+|        SCADA Frontend     |
++------------+--------------+
+             |
+             v
++---------------------------+
+|        API Service        |
++------------+--------------+
+             |
+             v
++------------+--------------+
+|    Acquisition Engine     |
++------------+--------------+
+             |
+             v
++------------+--------------+
+|     Historian Service     |
++------------+--------------+
+             |
+             v
++---------------------------+
+|       SQL Database        |
++---------------------------+
 ```
 
 ---
 
-# Flujo de datos
+# 5. Arquitectura estilo Cloud / AWS
+
+Ejemplo conceptual de despliegue:
+
+```
+                +---------------------+
+                |  Internet / VPN     |
+                +----------+----------+
+                           |
+                           v
+                +---------------------+
+                |   Load Balancer     |
+                +----------+----------+
+                           |
+                           v
+                +---------------------+
+                |   SCADA Web Server  |
+                +----------+----------+
+                           |
+                           v
+                +---------------------+
+                |   API Application   |
+                +----------+----------+
+                           |
+                           v
+           +---------------+---------------+
+           |                               |
+           v                               v
+   Acquisition Engine                 Historian Engine
+           |                               |
+           +---------------+---------------+
+                           |
+                           v
+                    SQL Database
+                           |
+                           v
+                Backup / Storage
+```
+
+---
+
+# 6. Flujo de datos
 
 ```
 Contador IEC102
@@ -138,13 +187,13 @@ Contador IEC102
 Motor adquisición
       │
       ▼
-Normalización
+Normalización datos
       │
       ▼
 Historian
       │
       ▼
-Base datos
+Base de datos
       │
       ▼
 SCADA / API
@@ -152,40 +201,110 @@ SCADA / API
 
 ---
 
-# Estructura del repositorio
+# 7. UML Base de Datos
+
+Diagrama conceptual simplificado
 
 ```
-project
++-------------+
+|   meters    |
++-------------+
+| id          |
+| name        |
+| location    |
++------+------
+       |
+       | 1
+       |
+       | n
++------+------+
+| historical_readings |
++---------------------+
+| id                  |
+| meter_id            |
+| timestamp           |
+| value               |
++---------------------+
+
++-------------+
+| alarms      |
++-------------+
+| id          |
+| meter_id    |
+| level       |
+| message     |
+| timestamp   |
++-------------+
+
++-------------+
+| parameters  |
++-------------+
+| id          |
+| name        |
+| unit        |
++-------------+
+```
+
+---
+
+# 8. Estructura del repositorio
+
+Repositorio GitHub propuesto
+
+```
+solar-monitoring-platform
+
 ├── docs
+│   ├── architecture
+│   │   ├── c4-diagrams.md
+│   │   ├── system-architecture.md
+│   │   └── database-uml.md
+│   │
+│   ├── manuals
+│   │   ├── user-manual.md
+│   │   └── technical-manual.md
+│
 ├── src
 │   ├── acquisition
 │   ├── historian
 │   ├── alarms
-│   └── api
+│   ├── api
+│   └── integrations
+│
 ├── database
+│   ├── schema.sql
+│   └── migrations
+│
 ├── config
+│   └── system.yaml
+│
+├── scripts
+│   ├── deploy.sh
+│   └── backup.sh
+│
 ├── logs
+│
 └── README.md
 ```
 
 ---
 
-# Prerrequisitos
+# 9. Prerrequisitos
 
-Servidor recomendado:
+Servidor recomendado
 
-CPU 4 cores  
-RAM 16GB  
-SSD
+CPU: 4 cores  
+RAM: 16GB  
+Disco: SSD  
 
-Software:
+Software
 
 - Linux / Windows Server
 - PostgreSQL / MySQL
 
 ---
 
-# Instalación
+# 10. Instalación
 
 ```
 git clone https://github.com/empresa/solar-monitoring-platform.git
@@ -195,9 +314,9 @@ pip install -r requirements.txt
 
 ---
 
-# Configuración
+# 11. Configuración
 
-Archivo
+Archivo principal
 
 ```
 config/system.yaml
@@ -217,56 +336,24 @@ iec102:
 
 ---
 
-# Arquitectura base de datos
-
-```
-meters
-parameters
-instant_readings
-historical_readings
-alarms
-events
-```
-
----
-
-# Recuperación de datos
-
-Si un contador pierde comunicación:
-
-1. se detecta hueco
-2. se mantiene adquisición
-3. se solicita histórico al contador
-4. se reconstruyen datos
-
----
-
-# Seguridad
-
-- autenticación
-- roles
-- cifrado comunicaciones
-
----
-
-# Observabilidad
+# 12. Observabilidad
 
 Integración posible con:
 
 - Prometheus
 - Grafana
 
-Métricas:
+Métricas clave
 
+- latencia adquisición
 - contadores offline
 - errores comunicación
-- latencia adquisición
 
 ---
 
-# DevOps / CI
+# 13. DevOps / CI
 
-Pipeline típico
+Pipeline
 
 ```
 GitHub
@@ -278,44 +365,39 @@ CI Pipeline
   └ deploy
 ```
 
----
+Herramientas recomendadas
 
-# Escalabilidad
-
-Permite:
-
-- añadir nuevos contadores
-- integrar nuevas plantas
-- escalar servicios
+- GitHub Actions
+- Docker
+- CI/CD
 
 ---
 
-# SLA recomendado
+# 14. SLA recomendado
 
 Disponibilidad objetivo
 
-99.5% uptime
+99.5 % uptime
+
+Tiempo respuesta incidencias
+
+Crítica < 4h  
+Media < 24h  
+Baja < 72h
 
 ---
 
-# Mantenimiento
+# 15. Propiedad intelectual
 
-- revisión logs
-- control base de datos
-- backup periódico
+El software desarrollado es **propiedad del cliente**, incluyendo
 
----
-
-# Propiedad intelectual
-
-Todo el software es **propiedad del cliente**.
-
-Incluye:
-
-- código
-- documentación
+- código fuente
 - arquitectura
+- documentación
+
+Esto garantiza independencia tecnológica y mantenimiento por terceros.
 
 ---
 
 Ingeniería e Instalaciones Industriales del Maresme S.L.
+Departamento de Ingeniería de Automatización
