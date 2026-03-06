@@ -1,0 +1,19 @@
+database:
+  host: localhost
+  port: 5432
+  name: scada_monitoring
+  user: scada
+  password: change_me
+
+iec102:
+  enabled: true
+  polling_interval: 5
+  reconnect_interval: 30
+
+modbus_tcp:
+  enabled: true
+  timeout_seconds: 3
+
+historian:
+  retention_days: 3650
+  batch_insert_size: 500
