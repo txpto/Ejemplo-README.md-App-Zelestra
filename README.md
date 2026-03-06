@@ -18,10 +18,7 @@
 
 ## Demo del producto
 
-Puedes visualizar una demo conceptual de la aplicación en el siguiente enlace:
-
-**Figma Mockup**  
-https://www.figma.com/make/B2incCz87jVWNUFzjXGtGn/Mockup-de-aplicaci%C3%B3n-web?t=dBFl31xwyyAdroHR-1&preview-route=%2Fcounters
+👉 [DEMO TIEMPO REAL](https://www.figma.com/make/B2incCz87jVWNUFzjXGtGn/Mockup-de-aplicaci%C3%B3n-web?t=dBFl31xwyyAdroHR-1&preview-route=%2Fcounters)
 
 
 ## ✨ Resumen ejecutivo
