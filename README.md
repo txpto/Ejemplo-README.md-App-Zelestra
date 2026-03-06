@@ -1,403 +1,325 @@
-
 # ⚡ Plataforma de Monitorización Energética para Plantas Fotovoltaicas
 ### Sistema de adquisición IEC60870-5-102, historización y visualización SCADA
 
-![Build](https://img.shields.io/badge/build-passing-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0-blue)
-![Coverage](https://img.shields.io/badge/coverage-92%25-green)
-![Docs](https://img.shields.io/badge/docs-complete-success)
-![License](https://img.shields.io/badge/license-Propiedad%20Cliente-orange)
-![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue)
+<p align="left">
+  <img src="https://img.shields.io/badge/build-passing-brightgreen" alt="build">
+  <img src="https://img.shields.io/badge/version-1.0-blue" alt="version">
+  <img src="https://img.shields.io/badge/coverage-92%25-green" alt="coverage">
+  <img src="https://img.shields.io/badge/docs-complete-success" alt="docs">
+  <img src="https://img.shields.io/badge/license-Propiedad%20Cliente-orange" alt="license">
+  <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue" alt="ci">
+</p>
 
 ---
 
-# Índice
+## ✨ Resumen ejecutivo
 
-1. Introducción  
-2. Características  
-3. Arquitectura general del sistema  
-4. Diagrama C4 de arquitectura  
-5. Arquitectura estilo Cloud / AWS  
-6. Flujo de datos del sistema  
-7. Diagrama UML de la base de datos  
-8. Estructura del repositorio GitHub  
-9. Prerrequisitos  
-10. Instalación  
-11. Configuración  
-12. Observabilidad  
-13. DevOps / CI  
-14. SLA recomendado  
-15. Propiedad intelectual  
+Solución software industrial diseñada para la **monitorización energética de plantas solares**, con adquisición de datos desde contadores **IEC60870-5-102** y estaciones meteorológicas **Modbus TCP**, historización, alarmas, visualización SCADA e integración con sistemas externos.
+
+### ✅ Qué aporta esta plataforma
+- Monitorización en tiempo real
+- Historización energética
+- Recuperación automática de datos perdidos
+- Gestión básica de alarmas
+- Visualización SCADA
+- Integración con centros de control
+- Arquitectura modular y mantenible
+- Propiedad intelectual del cliente
 
 ---
 
-# 1. Introducción
+## 📚 Índice
 
-Plataforma de monitorización energética diseñada para plantas solares que permite la adquisición de datos desde contadores IEC60870-5-102 y estaciones meteorológicas Modbus TCP.
-
-Permite:
-
-- monitorización en tiempo real
-- historización energética
-- recuperación automática de datos
-- visualización SCADA
-- integración con centros de control
-
-La solución se diseña como **software industrial robusto y completamente documentado**, preparado para mantenimiento futuro.
-
----
-
-# 2. Características
-
-✔ adquisición de datos IEC60870-5-102  
-✔ integración Modbus TCP  
-✔ historian energético  
-✔ recuperación automática de datos  
-✔ gestión de alarmas  
-✔ API de integración externa  
-✔ arquitectura escalable  
+- [✨ Resumen ejecutivo](#-resumen-ejecutivo)
+- [🧭 Visión general](#-visión-general)
+- [🚀 Características principales](#-características-principales)
+- [🏗️ Arquitectura general del sistema](#️-arquitectura-general-del-sistema)
+- [🧩 Diagrama C4 visual](#-diagrama-c4-visual)
+- [☁️ Arquitectura estilo Cloud / AWS](#️-arquitectura-estilo-cloud--aws)
+- [🗄️ Modelo de datos y UML](#️-modelo-de-datos-y-uml)
+- [🌊 Flujo de datos](#-flujo-de-datos)
+- [🗂️ Estructura del repositorio GitHub](#️-estructura-del-repositorio-github)
+- [⚙️ Prerrequisitos](#️-prerrequisitos)
+- [🛠️ Instalación](#️-instalación)
+- [🔧 Configuración](#-configuración)
+- [📈 Observabilidad](#-observabilidad)
+- [🔄 DevOps / CI](#-devops--ci)
+- [📋 SLA recomendado](#-sla-recomendado)
+- [🔐 Propiedad intelectual](#-propiedad-intelectual)
 
 ---
 
-# 3. Arquitectura general
+## 🧭 Visión general
 
-```
-        +-----------------------+
-        |        SCADA UI       |
-        +-----------+-----------+
-                    |
-                    v
-        +-----------------------+
-        |      API Gateway      |
-        +-----------+-----------+
-                    |
-                    v
-+---------+---------+----------+---------+
-| Acquisition | Historian | Alarm Engine |
-+---------+---------+----------+---------+
-                    |
-                    v
-           +----------------+
-           | SQL Database   |
-           +----------------+
-                    |
-                    v
-           Contadores / Meteo
-```
+La plataforma se concibe como una solución de ingeniería software de propósito industrial, pensada para operar con continuidad y ser mantenida a largo plazo.
+
+### Principios de diseño
+- **Claridad arquitectónica**
+- **Modularidad**
+- **Escalabilidad**
+- **Observabilidad**
+- **Transferencia de conocimiento**
+- **Independencia tecnológica del cliente**
+
+> Esta documentación está pensada para que un tercero pueda comprender la arquitectura, desplegar el sistema y mantenerlo con garantías razonables.
 
 ---
 
-# 4. Diagrama C4 de arquitectura
+## 🚀 Características principales
 
-## Nivel Contexto
-
-```
-             +---------------------+
-             |  Operador SCADA     |
-             +----------+----------+
-                        |
-                        v
-            +-----------------------+
-            | Plataforma Monitorización |
-            +-----------+-----------+
-                        |
-          +-------------+-------------+
-          |                           |
-          v                           v
-  Centro Control Energía      Sistemas Corporativos
-```
-
-## Nivel Contenedores
-
-```
-+---------------------------+
-|        SCADA Frontend     |
-+------------+--------------+
-             |
-             v
-+---------------------------+
-|        API Service        |
-+------------+--------------+
-             |
-             v
-+------------+--------------+
-|    Acquisition Engine     |
-+------------+--------------+
-             |
-             v
-+------------+--------------+
-|     Historian Service     |
-+------------+--------------+
-             |
-             v
-+---------------------------+
-|       SQL Database        |
-+---------------------------+
-```
+| Área | Capacidades |
+|---|---|
+| Adquisición | IEC60870-5-102, Modbus TCP, polling configurable |
+| Historización | Registro de variables eléctricas y meteorológicas |
+| Integración | API, exportación de datos, integración con ROC/centros de control |
+| Explotación | SCADA, pantallas de detalle, vista general, alarmas |
+| Continuidad | Recuperación automática de huecos de datos |
+| Operación | Logs, métricas, observabilidad y soporte al mantenimiento |
 
 ---
 
-# 5. Arquitectura estilo Cloud / AWS
+## 🏗️ Arquitectura general del sistema
 
-Ejemplo conceptual de despliegue:
+Separación en bloques funcionales para simplificar despliegue, operación y evolución.
 
+```text
+Campo → Adquisición → Procesado → Base de Datos → API/Integración → SCADA/UI
 ```
-                +---------------------+
-                |  Internet / VPN     |
-                +----------+----------+
-                           |
-                           v
-                +---------------------+
-                |   Load Balancer     |
-                +----------+----------+
-                           |
-                           v
-                +---------------------+
-                |   SCADA Web Server  |
-                +----------+----------+
-                           |
-                           v
-                +---------------------+
-                |   API Application   |
-                +----------+----------+
-                           |
-                           v
-           +---------------+---------------+
-           |                               |
-           v                               v
-   Acquisition Engine                 Historian Engine
-           |                               |
-           +---------------+---------------+
-                           |
-                           v
-                    SQL Database
-                           |
-                           v
-                Backup / Storage
-```
+
+### Capas principales
+1. **Equipos de campo**  
+   Contadores IEC102 y estaciones meteorológicas.
+
+2. **Capa de adquisición**  
+   Motores de comunicación y normalización de datos.
+
+3. **Capa de lógica**  
+   Historian, alarmas, recuperación de huecos y servicios internos.
+
+4. **Persistencia**  
+   Base de datos relacional e histórico operativo.
+
+5. **Exposición e interfaz**  
+   API, integración externa, dashboards y pantallas SCADA.
 
 ---
 
-# 6. Flujo de datos
+## 🧩 Diagrama C4 visual
 
-```
-Contador IEC102
-      │
-      ▼
-Motor adquisición
-      │
-      ▼
-Normalización datos
-      │
-      ▼
-Historian
-      │
-      ▼
+<p align="center">
+  <img src="./diagrams/c4_architecture.svg" alt="Diagrama C4 de arquitectura" width="980">
+</p>
+
+### Lectura del diagrama
+- **Operador SCADA** interactúa con la plataforma.
+- **Plataforma de monitorización** centraliza adquisición, lógica y presentación.
+- **Centro de control energético** y **sistemas corporativos** consumen información del sistema.
+
+---
+
+## ☁️ Arquitectura estilo Cloud / AWS
+
+<p align="center">
+  <img src="./diagrams/system_architecture_cloud.svg" alt="Arquitectura estilo cloud" width="980">
+</p>
+
+### Qué representa
+- Punto de acceso seguro mediante **VPN / Internet corporativa**
+- Capa de entrada mediante **Load Balancer**
+- **Servidor web SCADA**
+- **Servicio API**
+- Motores especializados:
+  - **Acquisition Engine**
+  - **Historian Engine**
+- **Base de datos SQL**
+- **Backups / almacenamiento**
+
+---
+
+## 🗄️ Modelo de datos y UML
+
+<p align="center">
+  <img src="./diagrams/uml_database_schema.svg" alt="UML base de datos" width="980">
+</p>
+
+### Entidades clave
+- **meters**: catálogo de contadores
+- **historical_readings**: histórico de lecturas por contador
+- **alarms**: eventos y estados de alarma
+- **parameters**: metadatos de variables y unidades
+
+---
+
+## 🌊 Flujo de datos
+
+```text
+Contador IEC102 / Estación Meteo
+        ↓
+Motor de adquisición
+        ↓
+Normalización y validación
+        ↓
+Historian / Alarm Engine
+        ↓
 Base de datos
-      │
-      ▼
-SCADA / API
+        ↓
+API / SCADA / Reporting / ROC
 ```
 
 ---
 
-# 7. UML Base de Datos
+## 🗂️ Estructura del repositorio GitHub
 
-Diagrama conceptual simplificado
-
-```
-+-------------+
-|   meters    |
-+-------------+
-| id          |
-| name        |
-| location    |
-+------+------
-       |
-       | 1
-       |
-       | n
-+------+------+
-| historical_readings |
-+---------------------+
-| id                  |
-| meter_id            |
-| timestamp           |
-| value               |
-+---------------------+
-
-+-------------+
-| alarms      |
-+-------------+
-| id          |
-| meter_id    |
-| level       |
-| message     |
-| timestamp   |
-+-------------+
-
-+-------------+
-| parameters  |
-+-------------+
-| id          |
-| name        |
-| unit        |
-+-------------+
+```text
+solar-monitoring-platform/
+├── README.md
+├── docs/
+├── diagrams/
+├── src/
+├── database/
+├── config/
+├── scripts/
+└── tests/
 ```
 
 ---
 
-# 8. Estructura del repositorio
+## ⚙️ Prerrequisitos
 
-Repositorio GitHub propuesto
+### Hardware recomendado
+- CPU: **4 cores** mínimo
+- RAM: **16 GB** recomendados
+- Disco: **SSD**
+- Red: conectividad estable hacia equipos de campo y sistemas de integración
 
-```
-solar-monitoring-platform
-
-├── docs
-│   ├── architecture
-│   │   ├── c4-diagrams.md
-│   │   ├── system-architecture.md
-│   │   └── database-uml.md
-│   │
-│   ├── manuals
-│   │   ├── user-manual.md
-│   │   └── technical-manual.md
-│
-├── src
-│   ├── acquisition
-│   ├── historian
-│   ├── alarms
-│   ├── api
-│   └── integrations
-│
-├── database
-│   ├── schema.sql
-│   └── migrations
-│
-├── config
-│   └── system.yaml
-│
-├── scripts
-│   ├── deploy.sh
-│   └── backup.sh
-│
-├── logs
-│
-└── README.md
-```
+### Software base
+- Linux o Windows Server
+- PostgreSQL o MySQL
+- Runtime de la aplicación
+- Acceso a puertos y rutas de comunicación requeridos
 
 ---
 
-# 9. Prerrequisitos
+## 🛠️ Instalación
 
-Servidor recomendado
+### 1. Clonar repositorio
 
-CPU: 4 cores  
-RAM: 16GB  
-Disco: SSD  
-
-Software
-
-- Linux / Windows Server
-- PostgreSQL / MySQL
-
----
-
-# 10. Instalación
-
+```bash
+git clone https://github.com/txpto/Ejemplo-README.md-App-Zelestra.git
+cd Ejemplo-README.md-App-Zelestra
 ```
-git clone https://github.com/empresa/solar-monitoring-platform.git
-cd solar-monitoring-platform
+
+### 2. Instalar dependencias
+
+```bash
 pip install -r requirements.txt
 ```
 
+### 3. Revisar configuración
+
+```bash
+nano config/system.yaml
+```
+
+### 4. Lanzar servicios
+
+```bash
+./scripts/deploy.sh
+```
+
 ---
 
-# 11. Configuración
+## 🔧 Configuración
 
-Archivo principal
+Archivo principal:
 
-```
+```text
 config/system.yaml
 ```
 
-Ejemplo
+Ejemplo:
 
-```
+```yaml
 database:
- host: localhost
- port: 5432
- user: scada
+  host: localhost
+  port: 5432
+  user: scada
 
 iec102:
- polling_interval: 5
+  polling_interval: 5
+
+historian:
+  retention_days: 3650
 ```
 
 ---
 
-# 12. Observabilidad
+## 📈 Observabilidad
 
-Integración posible con:
+### Integraciones recomendadas
+- **Prometheus**
+- **Grafana**
+- Logs centralizados
+- Alertado por eventos críticos
 
-- Prometheus
-- Grafana
-
-Métricas clave
-
-- latencia adquisición
-- contadores offline
-- errores comunicación
+### Métricas clave
+- Latencia de adquisición
+- Equipos offline
+- Errores de comunicación
+- Backlog de recuperación de datos
+- Crecimiento de base de datos
 
 ---
 
-# 13. DevOps / CI
+## 🔄 DevOps / CI
 
-Pipeline
+Pipeline recomendado para un proyecto profesional:
 
-```
-GitHub
-  │
-  ▼
-CI Pipeline
-  ├ tests
-  ├ build
-  └ deploy
+```text
+GitHub → CI Pipeline → Tests → Build → Artefactos → Despliegue controlado
 ```
 
-Herramientas recomendadas
-
+### Herramientas compatibles
 - GitHub Actions
 - Docker
-- CI/CD
+- Linters y validación estática
+- Tests unitarios e integración
 
 ---
 
-# 14. SLA recomendado
+## 📋 SLA recomendado
 
-Disponibilidad objetivo
+### Disponibilidad objetivo
+**99.5 % uptime**
 
-99.5 % uptime
-
-Tiempo respuesta incidencias
-
-Crítica < 4h  
-Media < 24h  
-Baja < 72h
+### Tiempos de respuesta orientativos
+- **Crítica**: < 4 horas
+- **Media**: < 24 horas
+- **Baja**: < 72 horas
 
 ---
 
-# 15. Propiedad intelectual
+## 🔐 Propiedad intelectual
 
-El software desarrollado es **propiedad del cliente**, incluyendo
+Todo el software desarrollado es **propiedad del cliente**, incluyendo:
 
-- código fuente
-- arquitectura
-- documentación
+- Código fuente
+- Arquitectura
+- Documentación
+- Diagramas
+- Scripts de despliegue y operación
 
-Esto garantiza independencia tecnológica y mantenimiento por terceros.
+### Qué garantiza esto
+- Independencia tecnológica
+- Posibilidad de mantenimiento por terceros
+- Evolución futura sin bloqueo tecnológico
+- Seguridad para la continuidad operativa
 
 ---
 
-Ingeniería e Instalaciones Industriales del Maresme S.L.
+## 🏁 Cierre
+
+Esta documentación de ejemplo está pensada para mostrar cómo sería un repositorio serio y bien estructurado de una solución software industrial a medida.
+
+**Ingeniería e Instalaciones Industriales del Maresme S.L.**  
 Departamento de Ingeniería de Automatización
