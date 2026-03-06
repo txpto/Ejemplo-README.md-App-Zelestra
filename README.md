@@ -393,3 +393,85 @@ Todo el software desarrollado es **propiedad del cliente**, incluyendo código f
 
 **Ingeniería e Instalaciones Industriales del Maresme S.L.**  
 Departamento de Ingeniería de Automatización
+
+
+---
+
+# 🔧 Mejora de documentación técnica
+
+Las siguientes secciones amplían la documentación existente manteniendo la estructura original del proyecto.
+
+## Arquitectura lógica del sistema
+
+La aplicación puede dividirse en los siguientes dominios funcionales:
+
+1. **Capa de adquisición**
+   - comunicación con contadores IEC60870-5-102
+   - comunicación con estaciones meteorológicas Modbus TCP
+   - gestión de polling y reconexiones
+
+2. **Capa de procesamiento**
+   - normalización de señales
+   - detección de eventos
+   - gestión de alarmas
+
+3. **Capa de historización**
+   - almacenamiento de datos históricos
+   - gestión de calidad de datos
+   - recuperación de huecos históricos
+
+4. **Capa de exposición**
+   - API de integración
+   - visualización SCADA
+   - exportación de datos
+
+---
+
+## Crecimiento sin modificación del software
+
+Uno de los principios clave de la solución es permitir la ampliación del sistema sin modificar código fuente.
+
+Esto se consigue mediante configuración externa basada en:
+
+- archivos CSV de inventario
+- configuración YAML de sistema
+- parametrización de historización
+
+Esto permite añadir:
+
+- nuevos contadores
+- nuevas estaciones meteorológicas
+- nuevos proyectos
+- nuevas variables
+
+simplemente actualizando archivos de configuración.
+
+---
+
+## Estrategia de mantenimiento
+
+El sistema ha sido documentado para facilitar:
+
+- mantenimiento por terceros
+- auditorías técnicas
+- evolución del sistema
+- resolución de incidencias
+
+La documentación ampliada se encuentra en la carpeta:
+
+```
+docs/
+```
+
+---
+
+## Buenas prácticas de operación
+
+Se recomienda:
+
+- mantener los catálogos de equipos bajo control de versiones
+- registrar cambios en configuración
+- revisar logs de comunicación periódicamente
+- validar conectividad antes de escalar incidencias
+
+---

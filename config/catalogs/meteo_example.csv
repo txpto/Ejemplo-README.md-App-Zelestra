@@ -1,0 +1,2 @@
+ip_address,tcp_port,station_name,physical_location,psfv_project,enabled
+10.20.1.10,502,METEO01,Zona Norte,PSFV_LLERENA,true

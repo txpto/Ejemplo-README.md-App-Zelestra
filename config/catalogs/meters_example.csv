@@ -1,0 +1,2 @@
+link_address,measurement_point,ip_address,tcp_port,meter_name,physical_location,psfv_project,enabled
+101,CT01,10.10.1.11,2404,CONTADOR_CT01,Centro Transformación 01,PSFV_LLERENA,true
