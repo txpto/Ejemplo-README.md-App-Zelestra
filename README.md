@@ -16,6 +16,14 @@
 
 ---
 
+## Demo del producto
+
+Puedes visualizar una demo conceptual de la aplicación en el siguiente enlace:
+
+**Figma Mockup**  
+https://www.figma.com/make/B2incCz87jVWNUFzjXGtGn/Mockup-de-aplicaci%C3%B3n-web?t=dBFl31xwyyAdroHR-1&preview-route=%2Fcounters
+
+
 ## ✨ Resumen ejecutivo
 
 Solución software industrial diseñada para la **monitorización energética de plantas solares**, con adquisición de datos desde contadores **IEC60870-5-102** y estaciones meteorológicas **Modbus TCP**, historización, alarmas, visualización SCADA e integración con sistemas externos.
